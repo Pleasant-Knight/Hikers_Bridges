@@ -27,7 +27,7 @@ hikerbridges:
  *
  */
 
-// API to generate YAML file
+// API to generate YAML files. No zeros are generated.
 bool generateYamlFile(configGenFile& cfg) {
 	int randSeed = cfg.randSeed;
 	if (randSeed == 0) {

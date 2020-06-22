@@ -17,7 +17,7 @@ void Bridge::addBridgePri(const std::vector<BLD> hikerSpeeds, BLD length) {
 }
 
 
-// Add a new bridge the singlton bridge with its length:
+// Add a new bridge to our singlton bridge with its length:
 // Use std::max_element()
 void Bridge::addBridgeSTL(const std::vector<BLD> hikerSpeeds, BLD length) {
 	for (const auto& h : hikerSpeeds)
@@ -26,6 +26,19 @@ void Bridge::addBridgeSTL(const std::vector<BLD> hikerSpeeds, BLD length) {
 	this->bridge_length.push_back(length);
 	// call getCrossTime()
 	std::cout << "Current bridge cross time: " << this->getCrossTimeSTL() << "\n";
+}
+
+void Bridge::printCrossTimes() {
+	if (bridge_length.empty() || bridgesCrossTimes.empty())
+		return;
+	std::cout << "Printing summary Cross Times for all bridges:\n";
+	for (auto i = 0; i < (int)bridgesCrossTimes.size(); i++) {
+		std::cout << "Bridge " << (i + 1) << " cross time is: "
+				  << bridgesCrossTimes[i] << "\n";
+	}
+
+	std::cout << "\nTotal cross time for " << bridgesCrossTimes.size()
+		      << " Bridges is: " << totalCrossTime << "\n";
 }
 
  /**
@@ -120,13 +133,22 @@ Bridge::Bridge(std::vector<std::vector<BLD>> hSpeeds, std::vector<BLD> length) {
 		for (auto j = 0; j < ((int)hSpeeds[idx].size()); j++) {
 			t = hSpeeds[idx][j];
 			DBGVAR(std::cout, t);
+			if (t <= 0) {
+				std::cerr << "Error: negative or zero hiker speed, abort!\n";
+				exit(1);
+			}
 			this->hiker_speed.push_back(t);
+		}
+		if (length[idx] <= 0) {
+			std::cerr << "Error: negative or zero bridge length, abort!\n";
+			exit(1);
 		}
 		this->bridge_length.push_back(length[idx]);
 		// call eval getCrossTimeSTL() or this->getCrossTimePri();
 		BLD tmp = this->getCrossTimeSTL(); 
 		std::cout << "\n\nBridge: " << (idx + 1) << " Cross time: " 
-			<< tmp << " minutes, Total Cross time so far: "<< this->totalCrossTime << " minutes\n\n";
+			<< tmp << " minutes, Total Cross time so far: "
+			<< this->totalCrossTime << " minutes\n\n";
 	}
 	
 	return;

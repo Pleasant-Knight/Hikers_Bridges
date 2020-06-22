@@ -67,8 +67,6 @@ void printUsage() {
          << " (using random numbers)\n";
     cerr << "Example to generate file:\n\n"
          << "\t\t./v1 -b 5 -k 4 -l 500 -s 26 -f myFirst.yaml -r 12345\n\n";
-
-    
     
     cerr << "Example to get help:\n\n";
     cerr << "\t\t./v1 or ./v1 -help or ./v1 -h --> to generate this help message\n\n";
@@ -111,6 +109,8 @@ int main(int argc, char* argv[]) {
         std::vector<long double> tmp = hSpeeds[0];
         Bridge B(hSpeeds, bridgesLengths);
 
+        // print the times:
+        B.printCrossTimes();
     } else { // argc > 2 
         int opt = 0;
         // This is the default output file name

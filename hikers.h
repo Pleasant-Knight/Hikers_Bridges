@@ -66,7 +66,7 @@ class Bridge {
 private:
 	// Length of each bridge in feet
 	std::vector<BLD> bridge_length;
-	
+
 	// Keep track of of how many hikers were added to each bridge
 	std::vector<size_t> numHikers;
 	
@@ -91,13 +91,18 @@ public:
 		this->hiker_speed = std::move(hiker_speed);
 		this->bridge_length.push_back(length);
 	}
-
+	
+	// Default constructor that we use to populate the singlton bridge.
 	Bridge(std::vector<std::vector<BLD>> hSpeeds, std::vector<BLD> length);
 
 	// Add one more bridge with its hikers and their speeds to the 
 	// singlton bridge.
 	// Also adjust the length of the bridge.
+	
+	// First API is using priority queue to calculate top speed hiker
 	void addBridgePri(const std::vector<BLD> speeds, BLD length);
+	// second API is using STL std::max_element() to calculate top speed hiker
+	// Using our Timer() to measure the perforamnce difference
 	void addBridgeSTL(const std::vector<BLD> speeds, BLD length);
 	
 	// return the current number of hikers to cross the bridge
@@ -134,4 +139,9 @@ public:
 	 * hiker using stl api: std::max_element()
 	 */
 	BLD getCrossTimeSTL();
+
+	/**
+	 * Print the total cross time and minimum cross time of each bridge.
+	 */
+	void printCrossTimes();
 };
